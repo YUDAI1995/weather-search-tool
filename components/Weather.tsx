@@ -22,7 +22,6 @@ interface WeatherProp {
 }
 
 const Weather: React.FC<WeatherProp> = ({ area }) => {
-
   // SWR
   const fetcher = (url: string) =>
     axios.get<WeatherApiResponse>(url).then((res) => {
@@ -85,12 +84,11 @@ transform text-red-500  transition-transform relative flex items-center justify-
                   transform hover:scale-105 transition-transform duration-300 text-blue-100 relative overflow-hidden"
       >
         <div className="w-full">
-          <div className="flex justify-between">
+          <div className="flex items-center justify-between">
             <div>
-              <h2 className="font-light text-sm">Area Name</h2>
-              <p className="text-xl font-medium tracking-widest">
+              <h2 className="text-2xl font-bold tracking-widest">
                 {area.areaName}
-              </p>
+              </h2>
             </div>
             <div>
               <img
@@ -103,19 +101,19 @@ transform text-red-500  transition-transform relative flex items-center justify-
             <div className="flex justify-between">
               <div>
                 <p className="font-light text-xs">Date</p>
-                <p className="font-bold tracking-more-wider text-sm">
+                <p className="font-bold tracking-more-wider text-md">
                   {new Date(data.dt * 1000).toLocaleDateString()}
                 </p>
               </div>
               <div>
                 <p className="font-light text-xs">Temprature</p>
-                <p className="font-bold tracking-more-wider text-sm">
+                <p className="font-bold tracking-more-wider text-md">
                   {data.main.temp}°C
                 </p>
               </div>
               <div>
                 <p className="font-light text-xs">Humidity</p>
-                <p className="font-bold tracking-more-wider text-sm">
+                <p className="font-bold tracking-more-wider text-md">
                   {data.main.humidity}%
                 </p>
               </div>

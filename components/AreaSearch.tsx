@@ -56,7 +56,6 @@ const AreaSearch: React.FC<AreaSearchProp> = ({ areaSearchHandler }) => {
         <div className="p-4">
           <div className="flex justify-center items-center w-96 h-56 m-auto border-2 overflow-hidden">
             {isEnter ? (
-              // <p>please serach button.</p>
               <p>Please enter an area.</p>
             ) : data ? (
               <Wrapper
@@ -84,14 +83,14 @@ const AreaSearch: React.FC<AreaSearchProp> = ({ areaSearchHandler }) => {
         >
           <input
             type="text"
-            className="w-full border-2 border-white bg-blue-200 focus:bg-blue-100 focus:border-blue-200 outline-none px-2 py-3 transition-all"
+            className="w-full border-0 bg-gray-100 focus:bg-blue-100 outline-none px-2 py-3 transition-all"
             placeholder="Please enter an area. Example: 東京駅"
             ref={inputTextRef}
             onChange={inputTextHandler}
           />
           <button
             type="submit"
-            className="rounded-sm bg-blue-600 ml-2 py-3 px-8 text-white hover:bg-blue-400 transition-colors outline-none"
+            className="rounded-sm bg-blue-600 ml-2 py-3 px-10 text-white hover:bg-blue-400 transition-colors outline-none"
           >
             Search
           </button>

@@ -72,10 +72,9 @@ const SearchWeather: React.FC<SearchWeatherProp> = ({ city, center }) => {
         transform hover:scale-105 transition-transform duration-300 text-blue-100 relative overflow-hidden"
       >
         <div className="w-full">
-          <div className="flex justify-between">
+          <div className="flex items-center justify-between">
             <div>
-              <h2 className="font-light">Area Name</h2>
-              <p className="text-lg font-medium tracking-widest">{city}</p>
+              <h2 className="text-lg font-medium tracking-widest">{city}</h2>
             </div>
             <div>
               <img

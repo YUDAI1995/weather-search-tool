@@ -53,8 +53,10 @@ const Home = () => {
       </Head>
 
       <main className="flex flex-col items-center justify-center w-full flex-1">
-        <h1 className="text-4xl font-bold my-4">Weather Search</h1>
-        <div className="w-full max-w-7xl flex items-center flex-wrap justify-center m-auto">
+        <h1 className="flex justify-center items-center h-20 text-4xl font-bold">
+          Weather Search
+        </h1>
+        <div className="w-full max-w-7xl flex items-center flex-wrap justify-center m-auto mt-5">
           {areaList.map((area) => (
             <Weather area={area} key={area.id} />
           ))}
@@ -68,7 +70,7 @@ const Home = () => {
                 <p>Sorry, Error.</p>
               </div>
             </div>
-          ) : data ? (
+          ) : loading ? null : data ? (
             <>
               <SearchWeather
                 city={city}
