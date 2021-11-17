@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { GetStaticProps } from "next";
 import axios from "axios";
+import { areaModel } from "../model/area.model";
 
 type WeatherApiResponse = {
   weather: [
@@ -16,7 +16,11 @@ type WeatherApiResponse = {
   statusText: "OK" | "unKnown";
 };
 
-const Weather = () => {
+interface WeatherProp {
+  area: areaModel;
+}
+
+const Weather: React.FC<WeatherProp> = ({ area }) => {
   const [data, setData] = useState([
     {
       weather: [
@@ -31,11 +35,14 @@ const Weather = () => {
       dt: 0,
     },
   ]);
+
   const [isFetching, setIsFetching] = useState(true);
   useEffect(() => {
     axios
       .get<WeatherApiResponse>(
-        `${process.env.NEXT_PUBLIC_WEATHER_API_URL}?q=Tokyo&APPID=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&units=metric`
+        `${process.env.NEXT_PUBLIC_WEATHER_API_URL}?q=${encodeURI(
+          area.areaRoman
+        )}&APPID=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&units=metric`
       )
       .then((response) => {
         if (response.statusText !== "OK") {
@@ -63,43 +70,49 @@ const Weather = () => {
 
   if (isFetching)
     return (
-      <div>
-        <svg
-          className="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-500"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
+      <div className="p-4">
+        <div
+          className="
+      w-96 h-56 rounded-xl shadow-2xl
+      transform  transition-transform
+      text-white relative flex items-center justify-center"
         >
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-          ></circle>
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
+          <svg
+            className="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-500"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+        </div>
       </div>
     );
   return (
     <div className="p-4">
       <div
-        className="bg-gradient-to-r from-blue-500 to-blue-300
-                  w-96 h-56 m-auto rounded-xl shadow-2xl
-                  transform hover:scale-110 transition-transform
-                  text-white relative"
+        className=" bg-blue-600 opacity-80
+                  w-96 h-56 m-auto rounded-xl shadow-2xl px-8 py-8
+                  transform hover:scale-105 transition-transform duration-300 text-blue-100 relative overflow-hidden"
       >
-        <div className="w-full px-8 absolute top-6">
+        <div className="w-full">
           <div className="flex justify-between">
             <div>
-              <h2 className="font-light">City Name</h2>
-              <p className="text-lg font-medium tracking-widest">
-                {data[0].name}
+              <h2 className="font-light text-sm">Area Name</h2>
+              <p className="text-xl font-medium tracking-widest">
+                {area.areaName}
               </p>
             </div>
             <div>
@@ -109,11 +122,7 @@ const Weather = () => {
               />
             </div>
           </div>
-          <div className="pt-6">
-            <h2 className="font-light">Weather Condition</h2>
-            <p className="text-lg font-medium tracking-widest"></p>
-          </div>
-          <div className="pt-5 pr-6">
+          <div className="mt-12 pr-6">
             <div className="flex justify-between">
               <div>
                 <p className="font-light text-xs">Date</p>
@@ -140,9 +149,5 @@ const Weather = () => {
     </div>
   );
 };
-
-// サーバー側で実行
-// export const getStaticProps: GetStaticProps = async () => {
-// };
 
 export default Weather;

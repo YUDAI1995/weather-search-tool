@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@googlemaps/js-api-loader": "^1.12.9",
+    "@googlemaps/react-wrapper": "^1.1.11",
+    "@types/google.maps": "^3.46.1",
     "@types/node": "^16.11.7",
     "@types/react": "^17.0.34",
     "autoprefixer": "^10.4.0",
@@ -17,6 +20,7 @@
     "postcss": "^8.3.11",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "swr": "^1.0.1",
     "tailwindcss": "^2.2.19",
     "typescript": "^4.4.4"
   },
