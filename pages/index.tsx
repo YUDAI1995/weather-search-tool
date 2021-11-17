@@ -50,6 +50,10 @@ const Home = () => {
       <Head>
         <title>Weather Search</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1.0,minimum-scale=1.0"
+        ></meta>
       </Head>
 
       <main className="flex flex-col items-center justify-center w-full flex-1">
@@ -61,7 +65,7 @@ const Home = () => {
             <Weather area={area} key={area.id} />
           ))}
           {error ? (
-            <div className="p-4 h-64 w-full md:w-1/2 lg:w-1/3">
+            <div className="py-2 px-4 md:p-4 h-64 w-full md:w-1/2 lg:w-1/3">
               <div
                 className="w-full h-full rounded-xl shadow-2xl bg-red-100
           transform text-red-500  transition-transform relative flex items-center justify-center"

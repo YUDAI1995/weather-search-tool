@@ -42,7 +42,7 @@ const AreaSearch: React.FC<AreaSearchProp> = ({ areaSearchHandler }) => {
         API_URL = `${process.env.NEXT_PUBLIC_GOOGLE_API_URL}?address="東京"&key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}`;
       }
     }
-    inputTextRef.current.value = ""
+    inputTextRef.current.value = "";
   };
 
   //input text Handler

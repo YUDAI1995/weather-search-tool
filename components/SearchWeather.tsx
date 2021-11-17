@@ -34,7 +34,7 @@ const SearchWeather: React.FC<SearchWeatherProp> = ({ city, center }) => {
 
   if (isValidating)
     return (
-      <div className="p-4 h-64 w-full md:w-1/2 lg:w-1/3">
+      <div className="py-2 px-4 md:p-4 h-64 w-full md:w-1/2 lg:w-1/3">
         <div
           className="rounded-xl shadow-2xl
       transform  transition-transform
@@ -67,7 +67,7 @@ const SearchWeather: React.FC<SearchWeatherProp> = ({ city, center }) => {
     return null;
   }
   return (
-    <div className="p-4 h-64 w-full md:w-1/2 lg:w-1/3">
+    <div className="py-2 px-4 md:p-4 h-64 w-full md:w-1/2 lg:w-1/3">
       <div
         className="bg-blue-600 opacity-80
         w-full h-full rounded-xl shadow-2xl px-8 py-8
