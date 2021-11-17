@@ -48,12 +48,12 @@ const Home = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <Head>
-        <title>Weather Application</title>
+        <title>Weather Search</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className="flex flex-col items-center justify-center w-full flex-1">
-        <h1 className="text-4xl font-bold my-4">Weather Application</h1>
+        <h1 className="text-4xl font-bold my-4">Weather Search</h1>
         <div className="w-full max-w-7xl flex items-center flex-wrap justify-center m-auto">
           {areaList.map((area) => (
             <Weather area={area} key={area.id} />
