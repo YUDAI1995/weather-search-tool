@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { areaModel } from "../model/area.model";
+import { Area } from "../model/area.model";
 import useSWR from "swr";
 
 type WeatherApiResponse = {
@@ -18,7 +18,7 @@ type WeatherApiResponse = {
 };
 
 interface WeatherProp {
-  area: areaModel;
+  area: Area;
 }
 
 const Weather: React.FC<WeatherProp> = ({ area }) => {

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useState } from "react";
 import fetchAreaData from "../data/fetchAreaData";
-import { areaModel } from "../model/area.model";
+import { Area, getRandomID } from "../model/area.model";
 import Weather from "../components/Weather";
 import AreaSearch from "../components/AreaSearch";
 import SearchWeather from "../components/SearchWeather";
@@ -9,39 +9,40 @@ import Footer from "../components/Footer";
 
 const Home = () => {
   const [city, setCity] = useState("");
-  const areaSearchHandler = (
-    city: string
-    //center: google.maps.LatLngLiteral
-  ) => {
+  const areaSearchHandler = (city: string) => {
     setCity(city);
   };
 
-  const areaList: areaModel[] = [
+  const [areaList, setAreaList] = useState<Area[]>([
     {
-      id: 1,
+      id: getRandomID(),
       areaRoman: "Tokyo",
       areaName: "東京",
       color: "blue",
+      num: 0,
     },
     {
-      id: 2,
+      id: getRandomID(),
       areaRoman: "Osaka",
       areaName: "大阪",
       color: "yellow",
+      num: 1,
     },
     {
-      id: 3,
+      id: getRandomID(),
       areaRoman: "Nagoya",
       areaName: "名古屋",
       color: "green",
+      num: 2,
     },
     {
-      id: 4,
+      id: getRandomID(),
       areaRoman: "Kyoto",
       areaName: "京都",
       color: "red",
+      num: 3,
     },
-  ];
+  ]);
 
   const { data, loading, error, mutate } = fetchAreaData(city);
 
