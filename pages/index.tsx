@@ -88,18 +88,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// export const getServerSideProps: GetServerSideProps = async (url) => {
-//   console.log(url);
-
-//   // 外部APIからデータを取得します。
-
-//   const res = await fetch(`${url}`).catch((err) => {
-//     console.log(err);
-//     throw new Error("Error");
-//   });
-//   const data = await res.json();
-
-//   // データをprops経由でページに渡します。
-//   return { props: { data } };
-// };

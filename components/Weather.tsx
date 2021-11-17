@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { areaModel } from "../model/area.model";
+import useSWR from "swr";
 
 type WeatherApiResponse = {
   weather: [
@@ -21,54 +22,18 @@ interface WeatherProp {
 }
 
 const Weather: React.FC<WeatherProp> = ({ area }) => {
-  const [data, setData] = useState([
-    {
-      weather: [
-        {
-          main: "",
-          description: "",
-          icon: "",
-        },
-      ],
-      main: { temp: 0, humidity: 0 },
-      name: "",
-      dt: 0,
-    },
-  ]);
 
-  const [isFetching, setIsFetching] = useState(true);
-  useEffect(() => {
-    axios
-      .get<WeatherApiResponse>(
-        `${process.env.NEXT_PUBLIC_WEATHER_API_URL}?q=${encodeURI(
-          area.areaRoman
-        )}&APPID=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&units=metric`
-      )
-      .then((response) => {
-        if (response.statusText !== "OK") {
-          throw new Error("Could not get data.");
-        }
+  // SWR
+  const fetcher = (url: string) =>
+    axios.get<WeatherApiResponse>(url).then((res) => {
+      return res.data;
+    });
+  const url = `${process.env.NEXT_PUBLIC_WEATHER_API_URL}?q=${encodeURI(
+    area.areaRoman
+  )}&APPID=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&units=metric`;
+  const { data, error, mutate, isValidating } = useSWR(url, fetcher);
 
-        setData((prevState) => [
-          {
-            weather: [response.data.weather[0]],
-            main: {
-              temp: response.data.main.temp,
-              humidity: response.data.main.humidity,
-            },
-            name: response.data.name,
-            dt: response.data.dt,
-          },
-          ...prevState,
-        ]);
-        setIsFetching(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  if (isFetching)
+  if (isValidating)
     return (
       <div className="p-4">
         <div
@@ -100,6 +65,18 @@ const Weather: React.FC<WeatherProp> = ({ area }) => {
         </div>
       </div>
     );
+  else if (error)
+    return (
+      <div className="p-4">
+        <div
+          className="
+w-96 h-56 rounded-xl shadow-2xl bg-red-100
+transform text-red-500  transition-transform relative flex items-center justify-center"
+        >
+          <p>Sorry, Error.</p>
+        </div>
+      </div>
+    );
   return (
     <div className="p-4">
       <div
@@ -117,8 +94,8 @@ const Weather: React.FC<WeatherProp> = ({ area }) => {
             </div>
             <div>
               <img
-                src={`${process.env.NEXT_PUBLIC_WEATHER_ICON_URL}/${data[0].weather[0].icon}.png`}
-                alt={data[0].weather[0].description}
+                src={`${process.env.NEXT_PUBLIC_WEATHER_ICON_URL}/${data.weather[0].icon}.png`}
+                alt={data.weather[0].description}
               />
             </div>
           </div>
@@ -127,19 +104,19 @@ const Weather: React.FC<WeatherProp> = ({ area }) => {
               <div>
                 <p className="font-light text-xs">Date</p>
                 <p className="font-bold tracking-more-wider text-sm">
-                  {new Date(data[0].dt * 1000).toLocaleDateString()}
+                  {new Date(data.dt * 1000).toLocaleDateString()}
                 </p>
               </div>
               <div>
                 <p className="font-light text-xs">Temprature</p>
                 <p className="font-bold tracking-more-wider text-sm">
-                  {data[0].main.temp}°C
+                  {data.main.temp}°C
                 </p>
               </div>
               <div>
                 <p className="font-light text-xs">Humidity</p>
                 <p className="font-bold tracking-more-wider text-sm">
-                  {data[0].main.humidity}%
+                  {data.main.humidity}%
                 </p>
               </div>
             </div>
