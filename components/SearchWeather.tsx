@@ -31,7 +31,7 @@ const SearchWeather: React.FC<SearchWeatherProp> = ({ city, center }) => {
     });
   const url = `${process.env.NEXT_PUBLIC_WEATHER_ONECALLAPI_URL}?lat=${center.lat}&lon=${center.lng}&APPID=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&units=metric`;
   const { data, error, mutate, isValidating } = useSWR(url, fetcher);
-
+  
   if (isValidating)
     return (
       <div className="p-4">
@@ -64,6 +64,9 @@ const SearchWeather: React.FC<SearchWeatherProp> = ({ city, center }) => {
         </div>
       </div>
     );
+  else if (error) {
+    return <p>エラー！！！！！！！！</p>;
+  }
   return (
     <div className="p-4">
       <div

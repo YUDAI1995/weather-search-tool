@@ -43,7 +43,14 @@ const Home = () => {
     },
   ];
 
+  
+
+  
   const { data, loading, error, mutate } = fetchAreaData(city);
+
+  console.log(city);
+  console.log(data);
+  console.log(error);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
