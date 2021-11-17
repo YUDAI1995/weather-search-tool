@@ -34,7 +34,7 @@ const Weather: React.FC<WeatherProp> = ({ area }) => {
 
   if (isValidating)
     return (
-      <div className="p-4">
+      <div className="p-4 h-64 w-full md:w-1/2 lg:w-1/3">
         <div
           className="
       w-96 h-56 rounded-xl shadow-2xl
@@ -66,7 +66,7 @@ const Weather: React.FC<WeatherProp> = ({ area }) => {
     );
   else if (error)
     return (
-      <div className="p-4">
+      <div className="p-4 h-64 w-full md:w-1/2 lg:w-1/3">
         <div
           className="
 w-96 h-56 rounded-xl shadow-2xl bg-red-100
@@ -77,16 +77,16 @@ transform text-red-500  transition-transform relative flex items-center justify-
       </div>
     );
   return (
-    <div className="p-4">
+    <div className="p-4 h-64 w-full md:w-1/2 lg:w-1/3">
       <div
         className=" bg-blue-600 opacity-80
-                  w-96 h-56 m-auto rounded-xl shadow-2xl px-8 py-8
+        w-full h-full rounded-xl shadow-2xl px-8 py-8
                   transform hover:scale-105 transition-transform duration-300 text-blue-100 relative overflow-hidden"
       >
         <div className="w-full">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold tracking-widest">
+              <h2 className="text-lg sm:text-2xl font-bold tracking-widest">
                 {area.areaName}
               </h2>
             </div>

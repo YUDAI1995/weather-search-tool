@@ -31,13 +31,12 @@ const SearchWeather: React.FC<SearchWeatherProp> = ({ city, center }) => {
     });
   const url = `${process.env.NEXT_PUBLIC_WEATHER_ONECALLAPI_URL}?lat=${center.lat}&lon=${center.lng}&APPID=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&units=metric`;
   const { data, error, mutate, isValidating } = useSWR(url, fetcher);
-  
+
   if (isValidating)
     return (
-      <div className="p-4">
+      <div className="p-4 h-64 w-full md:w-1/2 lg:w-1/3">
         <div
-          className="
-      w-96 h-56 rounded-xl shadow-2xl
+          className="rounded-xl shadow-2xl
       transform  transition-transform
       text-white relative flex items-center justify-center"
         >
@@ -65,19 +64,19 @@ const SearchWeather: React.FC<SearchWeatherProp> = ({ city, center }) => {
       </div>
     );
   else if (error) {
-    return <p>エラー！！！！！！！！</p>;
+    return null;
   }
   return (
-    <div className="p-4">
+    <div className="p-4 h-64 w-full md:w-1/2 lg:w-1/3">
       <div
         className="bg-blue-600 opacity-80
-        w-96 h-56 m-auto rounded-xl shadow-2xl px-8 py-8
+        w-full h-full rounded-xl shadow-2xl px-8 py-8
         transform hover:scale-105 transition-transform duration-300 text-blue-100 relative overflow-hidden"
       >
         <div className="w-full">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-medium tracking-widest">{city}</h2>
+              <h2 className="sm:text-2xl font-bold tracking-widest">{city}</h2>
             </div>
             <div>
               <img

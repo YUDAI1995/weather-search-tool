@@ -43,14 +43,7 @@ const Home = () => {
     },
   ];
 
-  
-
-  
   const { data, loading, error, mutate } = fetchAreaData(city);
-
-  console.log(city);
-  console.log(data);
-  console.log(error);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -63,15 +56,14 @@ const Home = () => {
         <h1 className="flex justify-center items-center h-20 text-4xl font-bold">
           Weather Search
         </h1>
-        <div className="w-full max-w-7xl flex items-center flex-wrap justify-center m-auto mt-5">
+        <div className="w-full md:max-w-5xl lg:max-w-7xl sm:flex items-center flex-wrap m-auto mt-5">
           {areaList.map((area) => (
             <Weather area={area} key={area.id} />
           ))}
           {error ? (
-            <div className="p-4">
+            <div className="p-4 h-64 w-full md:w-1/2 lg:w-1/3">
               <div
-                className="
-          w-96 h-56 rounded-xl shadow-2xl bg-red-100
+                className="w-full h-full rounded-xl shadow-2xl bg-red-100
           transform text-red-500  transition-transform relative flex items-center justify-center"
               >
                 <p>Sorry, Error.</p>
