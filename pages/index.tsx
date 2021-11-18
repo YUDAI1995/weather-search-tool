@@ -1,11 +1,14 @@
 import Head from "next/head";
 import { useState } from "react";
 import fetchAreaData from "../data/fetchAreaData";
-import { Area, getRandomID } from "../model/area.model";
 import Weather from "../components/Weather";
 import AreaSearch from "../components/AreaSearch";
 import SearchWeather from "../components/SearchWeather";
 import Footer from "../components/Footer";
+import { useDragList } from "../useDragList";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
+import { Area } from "../model/area.model";
 
 const Home = () => {
   const [city, setCity] = useState("");
@@ -13,38 +16,43 @@ const Home = () => {
     setCity(city);
   };
 
-  const [areaList, setAreaList] = useState<Area[]>([
-    {
-      id: getRandomID(),
-      areaRoman: "Tokyo",
-      areaName: "東京",
-      color: "blue",
-      num: 0,
-    },
-    {
-      id: getRandomID(),
-      areaRoman: "Osaka",
-      areaName: "大阪",
-      color: "yellow",
-      num: 1,
-    },
-    {
-      id: getRandomID(),
-      areaRoman: "Nagoya",
-      areaName: "名古屋",
-      color: "green",
-      num: 2,
-    },
-    {
-      id: getRandomID(),
-      areaRoman: "Kyoto",
-      areaName: "京都",
-      color: "red",
-      num: 3,
-    },
-  ]);
+  // const areaList: Area[] = [
+  //   {
+  //     id: getRandomID(),
+  //     areaRoman: "Tokyo",
+  //     areaName: "東京",
+  //     color: "blue",
+  //     num: 0,
+  //   },
+  //   {
+  //     id: getRandomID(),
+  //     areaRoman: "Osaka",
+  //     areaName: "大阪",
+  //     color: "yellow",
+  //     num: 1,
+  //   },
+  //   {
+  //     id: getRandomID(),
+  //     areaRoman: "Nagoya",
+  //     areaName: "名古屋",
+  //     color: "green",
+  //     num: 2,
+  //   },
+  //   {
+  //     id: getRandomID(),
+  //     areaRoman: "Kyoto",
+  //     areaName: "京都",
+  //     color: "red",
+  //     num: 3,
+  //   },
+  // ];
+  const areaList: Area[] = useSelector(
+    (state: RootState) => state.areaState.areaList
+  );
 
   const { data, loading, error, mutate } = fetchAreaData(city);
+
+  const draggableList = useDragList(areaList);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -62,7 +70,7 @@ const Home = () => {
           Weather Search
         </h1>
         <div className="w-full md:max-w-5xl lg:max-w-7xl sm:flex items-center flex-wrap m-auto mt-5">
-          {areaList.map((area) => (
+          {draggableList.map((area) => (
             <Weather area={area} key={area.id} />
           ))}
           {error ? (
