@@ -51,8 +51,7 @@ const Weather: React.FC<WeatherProp> = ({ area, containerNum }) => {
   if (isValidating)
     return (
       <div
-        className="
-      w-full h-full rounded-xl shadow-2xl
+        className="w-full h-full min-h-40 rounded-xl shadow-2xl
       transform  transition-transform
       text-white relative flex items-center justify-center"
       >
@@ -81,7 +80,7 @@ const Weather: React.FC<WeatherProp> = ({ area, containerNum }) => {
   else if (error)
     return (
       <div
-        className="w-full h-full rounded-xl shadow-2xl bg-red-100
+        className="w-full h-full min-h-40 rounded-xl shadow-2xl bg-red-100
 transform text-red-500  transition-transform flex items-center justify-center"
       >
         <p>Sorry, Error.</p>
@@ -90,8 +89,7 @@ transform text-red-500  transition-transform flex items-center justify-center"
   return (
     <div
       className={`bg-blue-600 opacity-80
-      w-full h-full rounded-xl shadow-2xl px-8 py-8
-                transform hover:scale-105 transition-transform duration-300 text-blue-100 overflow-hidden ${pointer}`}
+      w-full h-full rounded-xl shadow-2xl px-8 py-8 transform hover:scale-105 transition-transform duration-300 text-blue-100 overflow-hidden ${pointer}`}
       ref={dragRef}
     >
       <div className="w-full">
@@ -101,7 +99,7 @@ transform text-red-500  transition-transform flex items-center justify-center"
               {area.areaName}
             </h2>
           </div>
-          <div>
+          <div className="min-w-50">
             <img
               src={`${process.env.NEXT_PUBLIC_WEATHER_ICON_URL}/${data.weather[0].icon}.png`}
               alt={data.weather[0].description}

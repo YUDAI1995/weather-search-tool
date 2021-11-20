@@ -36,15 +36,15 @@ const Home = () => {
         <h1 className="flex justify-center items-center h-20 text-4xl font-bold">
           Weather Search
         </h1>
-        <div className="w-full md:max-w-5xl lg:max-w-7xl sm:flex items-center flex-wrap m-auto mt-5">
+        <div className="w-full md:max-w-5xl lg:max-w-7xl sm:flex items-stretch flex-wrap m-auto mt-5">
           {areaList.map((area, index) => (
             <ResultContainer containerNum={index} key={area.id} />
           ))}
           {error ? (
-            <div className="py-2 px-4 md:p-4 h-64 w-full md:w-1/2 lg:w-1/3">
+            <div className="py-4 px-4 md:p-4 w-full md:w-1/2 lg:w-1/3">
               <div
-                className="w-full h-full rounded-xl shadow-2xl bg-red-100
-          transform text-red-500  transition-transform relative flex items-center justify-center"
+                className="w-full h-full min-h-40 rounded-xl shadow-2xl bg-red-100
+          transform text-red-500  transition-transform flex items-center justify-center"
               >
                 <p>Sorry, Error.</p>
               </div>

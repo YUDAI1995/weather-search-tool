@@ -21,7 +21,7 @@ const ResultContainer: React.FC<ResultContainerProp> = ({ containerNum }) => {
   return isOver ? (
     <div
       ref={dropRef}
-      className="py-2 px-4 md:p-4 h-64 w-full md:w-1/2 lg:w-1/3 border-2 border-blue-200"
+      className="py-4 px-4 w-full md:w-1/2 lg:w-1/3 border-2 border-blue-200"
     >
       <Weather
         area={areaList[index]}
@@ -32,7 +32,7 @@ const ResultContainer: React.FC<ResultContainerProp> = ({ containerNum }) => {
   ) : (
     <div
       ref={dropRef}
-      className="py-2 px-4 md:p-4 h-64 w-full md:w-1/2 lg:w-1/3 border-1 border-transparent"
+      className="py-4 px-4 w-full md:w-1/2 lg:w-1/3 border-2 border-transparent"
     >
       <Weather
         area={areaList[index]}
