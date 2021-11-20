@@ -12,12 +12,12 @@ const reducer = combineReducers({
 
 export const store = configureStore({
   reducer,
-  //   middleware: (getDefaultMiddleware) =>
-  //     getDefaultMiddleware({
-  //       serializableCheck: {
-  //         ignoredActions: ["pet/setPetNum"],
-  //       },
-  //     }),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["area/setAreaNum"],
+      },
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

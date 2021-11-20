@@ -1,10 +1,11 @@
 export class Area {
   constructor(
     public id: string,
+    public num: number,
     public areaRoman: string,
     public areaName: string,
-    public color: string,
-    public num: number
+    public center: google.maps.LatLngLiteral,
+    public color: string
   ) {}
 }
 

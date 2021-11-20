@@ -1,32 +1,16 @@
-import { useState } from "react";
 import axios from "axios";
 import useSWR from "swr";
-
-type WeatherApiResponse = {
-  current: {
-    dt: number;
-    temp: number;
-    humidity: number;
-    weather: [
-      {
-        main: string;
-        description: string;
-        icon: string;
-      }
-    ];
-    statusText: "OK" | "unKnown";
-  };
-};
+import { AreaWeatherApiResponse } from "../model/weather.model";
 
 interface SearchWeatherProp {
-  city: string;
+  area: string;
   center: google.maps.LatLngLiteral;
 }
 
-const SearchWeather: React.FC<SearchWeatherProp> = ({ city, center }) => {
+const SearchWeather: React.FC<SearchWeatherProp> = ({ area, center }) => {
   //SWR: Fetcher Function
   const fetcher = (url: string) =>
-    axios.get<WeatherApiResponse>(url).then((res) => {
+    axios.get<AreaWeatherApiResponse>(url).then((res) => {
       return res.data.current;
     });
   const url = `${process.env.NEXT_PUBLIC_WEATHER_ONECALLAPI_URL}?lat=${center.lat}&lon=${center.lng}&APPID=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&units=metric`;
@@ -36,7 +20,7 @@ const SearchWeather: React.FC<SearchWeatherProp> = ({ city, center }) => {
     return (
       <div className="py-2 px-4 md:p-4 h-64 w-full md:w-1/2 lg:w-1/3">
         <div
-          className="rounded-xl shadow-2xl
+          className="w-full h-full rounded-xl shadow-2xl
       transform  transition-transform
       text-white relative flex items-center justify-center"
         >
@@ -76,7 +60,7 @@ const SearchWeather: React.FC<SearchWeatherProp> = ({ city, center }) => {
         <div className="w-full">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="sm:text-2xl font-bold tracking-widest">{city}</h2>
+              <h2 className="sm:text-2xl font-bold tracking-widest">{area}</h2>
             </div>
             <div>
               <img
