@@ -8,7 +8,7 @@ import ResultContainer from "../components/ResultContainer";
 import AreaSearch from "../components/AreaSearch";
 import SearchWeather from "../components/SearchWeather";
 import Footer from "../components/Footer";
-import { GetStaticProps } from "next";
+import { GetServerSideProps, GetStaticProps } from "next";
 import axios from "axios";
 import { setAreaList } from "../store/areaSlice";
 import { dataFetcher } from "../lib/dataFetcher";
@@ -83,8 +83,7 @@ const Home: React.FC<Prop> = ({ fetchData }: Prop) => {
 
 export default Home;
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const fetchData = await dataFetcher();
-
   return { props: { fetchData } };
 };
