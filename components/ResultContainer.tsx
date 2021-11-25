@@ -17,11 +17,13 @@ const ResultContainer: React.FC<ResultContainerProp> = ({ containerNum }) => {
   });
 
   const areaList = useSelector((state: RootState) => state.areaState.areaList);
+
   const index = areaList.findIndex(({ num }) => num === containerNum);
-  return isOver ? (
+
+  return index === -1 ? null : isOver ? (
     <div
       ref={dropRef}
-      className="py-4 px-4 w-full md:w-1/2 lg:w-1/3 border-2 border-blue-200"
+      className="py-4 px-4 w-full md:w-1/2 lg:w-1/3 bg-blue-100 rounded-xl"
     >
       <Weather
         area={areaList[index]}
@@ -30,10 +32,7 @@ const ResultContainer: React.FC<ResultContainerProp> = ({ containerNum }) => {
       />
     </div>
   ) : (
-    <div
-      ref={dropRef}
-      className="py-4 px-4 w-full md:w-1/2 lg:w-1/3 border-2 border-transparent"
-    >
+    <div ref={dropRef} className="py-4 px-4 w-full md:w-1/2 lg:w-1/3">
       <Weather
         area={areaList[index]}
         key={areaList[index].id}

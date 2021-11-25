@@ -1,15 +1,26 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import fetchAreaData from "../data/fetchAreaData";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import { Area } from "../model/area.model";
 import ResultContainer from "../components/ResultContainer";
 import AreaSearch from "../components/AreaSearch";
 import SearchWeather from "../components/SearchWeather";
 import Footer from "../components/Footer";
+import { GetStaticProps } from "next";
+import axios from "axios";
+import { setAreaList } from "../store/areaSlice";
 
-const Home = () => {
+interface Prop {
+  fetchData: Area[];
+}
+const Home: React.FC<Prop> = ({ fetchData }: Prop) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setAreaList(fetchData));
+  }, []);
+
   const [area, setArea] = useState("");
   const areaSearchHandler = (area: string) => {
     setArea(area);
@@ -54,6 +65,7 @@ const Home = () => {
               <SearchWeather
                 area={area}
                 center={data.results[0].geometry.location}
+                areaSearchHandler={areaSearchHandler}
               />
             </>
           ) : (
@@ -69,3 +81,10 @@ const Home = () => {
 };
 
 export default Home;
+
+export const getStaticProps: GetStaticProps = async () => {
+  const fetchData = await axios
+    .get<Area[]>(`${process.env.NEXT_PUBLIC_URL}/api/data`)
+    .then((res) => res.data);
+  return { props: { fetchData } };
+};

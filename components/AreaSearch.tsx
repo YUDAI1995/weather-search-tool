@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useRef, useState } from "react";
+import React, { ReactElement, useRef, useState } from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import RenderMap from "./RenderMap";
 import fetchAreaData from "../data/fetchAreaData";
@@ -39,6 +39,7 @@ const AreaSearch: React.FC<AreaSearchProp> = ({ areaSearchHandler }) => {
         }`;
         areaSearchHandler(inputTextRef.current.value);
       } else {
+        setIsEnter(true);
         API_URL = `${process.env.NEXT_PUBLIC_GOOGLE_API_URL}?address="東京"&key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}`;
       }
     }
@@ -56,7 +57,7 @@ const AreaSearch: React.FC<AreaSearchProp> = ({ areaSearchHandler }) => {
         <div className="p-4">
           <div className="flex justify-center items-center sm:w-1/2 h-64 m-auto border-2 overflow-hidden">
             {isEnter ? (
-              <p>Please enter an area.</p>
+              <p className="text-gray-600">地名をご入力ください</p>
             ) : data ? (
               <Wrapper
                 apiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY}
@@ -68,9 +69,30 @@ const AreaSearch: React.FC<AreaSearchProp> = ({ areaSearchHandler }) => {
                 />
               </Wrapper>
             ) : loading ? (
-              <p>Loadong...</p>
+              <div className="transform  transition-transform text-white relative flex items-center justify-center">
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+              </div>
             ) : error ? (
-              <p className="text-red-500">Sorry, Error.</p>
+              <p className="w-full h-full flex justify-center items-center bg-red-100 text-red-500">Sorry, Error.</p>
             ) : (
               <p>Map</p>
             )}
@@ -84,15 +106,15 @@ const AreaSearch: React.FC<AreaSearchProp> = ({ areaSearchHandler }) => {
           <input
             type="text"
             className="w-full text-sm border-0 bg-gray-100 focus:bg-blue-100 outline-none px-2 py-3 transition-all"
-            placeholder="Please enter an area. Example: 東京駅"
+            placeholder="地名を入力してください 例: 東京駅"
             ref={inputTextRef}
             onChange={inputTextHandler}
           />
           <button
             type="submit"
-            className="rounded-sm bg-blue-600 sm:ml-2 py-3 px-2 sm:px-10 text-sm text-white hover:bg-blue-400 transition-colors outline-none"
+            className="block rounded-sm bg-blue-600 min-w-1/4 sm:ml-2 py-3 px-2 sm:px-10 text-sm text-white hover:bg-blue-400 transition-colors outline-none"
           >
-            Search
+            検索
           </button>
         </form>
       </div>

@@ -1,20 +1,66 @@
 import axios from "axios";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import useSWR from "swr";
+import { Area, getDirection, getRandomID } from "../model/area.model";
 import { AreaWeatherApiResponse } from "../model/weather.model";
+import { RootState } from "../store";
+import { addAreaList } from "../store/areaSlice";
 
 interface SearchWeatherProp {
   area: string;
   center: google.maps.LatLngLiteral;
+  areaSearchHandler: (city: string) => void;
 }
 
-const SearchWeather: React.FC<SearchWeatherProp> = ({ area, center }) => {
+const SearchWeather: React.FC<SearchWeatherProp> = ({
+  area,
+  center,
+  areaSearchHandler,
+}) => {
   //SWR: Fetcher Function
   const fetcher = (url: string) =>
     axios.get<AreaWeatherApiResponse>(url).then((res) => {
-      return res.data.current;
+      return res.data;
     });
   const url = `${process.env.NEXT_PUBLIC_WEATHER_ONECALLAPI_URL}?lat=${center.lat}&lon=${center.lng}&APPID=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&units=metric`;
   const { data, error, mutate, isValidating } = useSWR(url, fetcher);
+
+  const areaList: Area[] = useSelector(
+    (state: RootState) => state.areaState.areaList
+  );
+  const dispatch = useDispatch();
+  const onAddHandler = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+
+    const newArea = new Area(
+      getRandomID(),
+      areaList.length,
+      "",
+      area,
+      center.lat.toString(),
+      center.lng.toString(),
+      "bule"
+    );
+
+    axios
+      .post("/api/data", newArea)
+      .then((res) => {
+        mutate();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    dispatch(
+      addAreaList({
+        newArea,
+      })
+    );
+    areaSearchHandler("");
+  };
 
   if (isValidating)
     return (
@@ -56,38 +102,47 @@ const SearchWeather: React.FC<SearchWeatherProp> = ({ area, center }) => {
         transform hover:scale-105 transition-transform duration-300 text-blue-100 relative overflow-hidden"
       >
         <div className="w-full">
-          <div className="flex items-center justify-between">
+          <div className="relative flex items-center justify-between">
             <div>
               <h2 className="sm:text-2xl font-bold tracking-widest">{area}</h2>
             </div>
             <div className="min-w-50">
               <img
-                src={`${process.env.NEXT_PUBLIC_WEATHER_ICON_URL}/${data.weather[0].icon}.png`}
-                alt={data.weather[0].description}
+                src={`${process.env.NEXT_PUBLIC_WEATHER_ICON_URL}/${data.current.weather[0].icon}@2x.png`}
+                alt={data.current.weather[0].description}
+                width="50"
+                height="50"
               />
             </div>
           </div>
           <div className="mt-12 pr-6">
             <div className="flex justify-between">
               <div>
-                <p className="font-light text-xs">Date</p>
-                <p className="font-bold tracking-more-wider text-sm">
-                  {new Date(data.dt * 1000).toLocaleDateString()}
+                <p className="font-light text-xs">気温</p>
+                <p className="font-bold tracking-more-wider text-md">
+                  {data.current.temp}°C
                 </p>
               </div>
               <div>
-                <p className="font-light text-xs">Temprature</p>
-                <p className="font-bold tracking-more-wider text-sm">
-                  {data.temp}°C
+                <p className="font-light text-xs">湿度</p>
+                <p className="font-bold tracking-more-wider text-md">
+                  {data.current.humidity}%
                 </p>
               </div>
               <div>
-                <p className="font-light text-xs">Humidity</p>
+                <p className="font-light text-xs">風速 - 風向き</p>
                 <p className="font-bold tracking-more-wider text-sm">
-                  {data.humidity}%
+                  {`${data.current.wind_speed}m/s
+                ${getDirection(data.current.wind_deg)}`}
                 </p>
               </div>
             </div>
+            <button
+              className="absolute bg-blue-800 font-bold bottom-2 right-2 w-10 h-6 rounded-xl hover:bg-blue-50 hover:text-blue-800 transition-colors outline-none"
+              onClick={onAddHandler}
+            >
+              +
+            </button>
           </div>
         </div>
       </div>

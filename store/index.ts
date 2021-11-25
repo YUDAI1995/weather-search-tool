@@ -15,7 +15,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ["area/setAreaNum"],
+        ignoredActions: ["area/setAreaNum", "area/setAreaList", "area/addAreaList"],
       },
     }),
 });

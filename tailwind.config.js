@@ -23,11 +23,13 @@ module.exports = {
       full: "100%",
       40: "10rem",
       64: "16rem",
+      screen: "100vh",
     },
     extend: {},
   },
   variants: {
     extend: {},
+    backgroundColor: ({ after }) => after(["active"]),
   },
   plugins: [],
 };

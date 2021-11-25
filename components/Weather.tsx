@@ -1,7 +1,7 @@
 import axios from "axios";
-import { Area } from "../model/area.model";
+import { Area, getDirection } from "../model/area.model";
 import useSWR from "swr";
-import { WeatherApiResponse } from "../model/weather.model";
+import { AreaWeatherApiResponse } from "../model/weather.model";
 import { useDispatch } from "react-redux";
 import { useDrag } from "react-dnd";
 import { setAreaNum } from "../store/areaSlice";
@@ -14,16 +14,13 @@ interface WeatherProp {
 const Weather: React.FC<WeatherProp> = ({ area, containerNum }) => {
   // SWR
   const fetcher = (url: string) =>
-    axios.get<WeatherApiResponse>(url).then((res) => {
+    axios.get<AreaWeatherApiResponse>(url).then((res) => {
       return res.data;
     });
-  const url = `${process.env.NEXT_PUBLIC_WEATHER_API_URL}?q=${encodeURI(
-    area.areaRoman
-  )}&APPID=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&units=metric`;
+  const url = `${process.env.NEXT_PUBLIC_WEATHER_ONECALLAPI_URL}?lat=${area.lat}&lon=${area.lng}&APPID=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&units=metric`;
   const { data, error, mutate, isValidating } = useSWR(url, fetcher);
 
   const dispatch = useDispatch();
-
   const [{ isDragging }, dragRef] = useDrag({
     type: "weatherData",
 
@@ -32,6 +29,17 @@ const Weather: React.FC<WeatherProp> = ({ area, containerNum }) => {
     end: (_, monitor) => {
       const result = monitor.getDropResult() as { containerNum: number };
       if (result) {
+        axios
+          .patch("/api/data", {
+            containerNum: result.containerNum,
+            prevContainerNum: containerNum,
+          })
+          .then((res) => {
+            mutate();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
         dispatch(
           setAreaNum({
             containerNum: result.containerNum,
@@ -101,29 +109,32 @@ transform text-red-500  transition-transform flex items-center justify-center"
           </div>
           <div className="min-w-50">
             <img
-              src={`${process.env.NEXT_PUBLIC_WEATHER_ICON_URL}/${data.weather[0].icon}.png`}
-              alt={data.weather[0].description}
+              src={`${process.env.NEXT_PUBLIC_WEATHER_ICON_URL}/${data.current.weather[0].icon}@2x.png`}
+              alt={data.current.weather[0].description}
+              width="50"
+              height="50"
             />
           </div>
         </div>
         <div className="mt-12 pr-6">
           <div className="flex justify-between">
             <div>
-              <p className="font-light text-xs">Date</p>
+              <p className="font-light text-xs">気温</p>
               <p className="font-bold tracking-more-wider text-md">
-                {new Date(data.dt * 1000).toLocaleDateString()}
+                {data.current.temp}°C
               </p>
             </div>
             <div>
-              <p className="font-light text-xs">Temprature</p>
+              <p className="font-light text-xs">湿度</p>
               <p className="font-bold tracking-more-wider text-md">
-                {data.main.temp}°C
+                {data.current.humidity}%
               </p>
             </div>
             <div>
-              <p className="font-light text-xs">Humidity</p>
-              <p className="font-bold tracking-more-wider text-md">
-                {data.main.humidity}%
+              <p className="font-light text-xs">風速 - 風向き</p>
+              <p className="font-bold tracking-more-wider text-sm">
+                {`${data.current.wind_speed}m/s
+                ${getDirection(data.current.wind_deg)}`}
               </p>
             </div>
           </div>
