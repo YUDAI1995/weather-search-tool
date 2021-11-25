@@ -106,7 +106,7 @@ const AreaSearch: React.FC<AreaSearchProp> = ({ areaSearchHandler }) => {
           <input
             type="text"
             className="w-full text-sm border-0 bg-gray-100 focus:bg-blue-100 outline-none px-2 py-3 transition-all"
-            placeholder="地名を入力してください 例: 東京駅"
+            placeholder="地名をご入力ください 例: 東京駅"
             ref={inputTextRef}
             onChange={inputTextHandler}
           />
