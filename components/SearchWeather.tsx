@@ -42,7 +42,7 @@ const SearchWeather: React.FC<SearchWeatherProp> = ({
       area,
       center.lat.toString(),
       center.lng.toString(),
-      "bule"
+      "blue"
     );
 
     axios
