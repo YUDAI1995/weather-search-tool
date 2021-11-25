@@ -82,9 +82,9 @@ const Home: React.FC<Prop> = ({ fetchData }: Prop) => {
 
 export default Home;
 
-// export const getStaticProps: GetStaticProps = async () => {
-//   const fetchData = await axios
-//     .get<Area[]>(`${process.env.NEXT_PUBLIC_URL}/api/data`)
-//     .then((res) => res.data);
-//   return { props: { fetchData } };
-// };
+export const getStaticProps: GetStaticProps = async () => {
+  const fetchData = await axios
+    .get<Area[]>(`${process.env.NEXT_PUBLIC_URL}/api/data`)
+    .then((res) => res.data);
+  return { props: { fetchData } };
+};
