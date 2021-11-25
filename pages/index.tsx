@@ -11,6 +11,7 @@ import Footer from "../components/Footer";
 import { GetStaticProps } from "next";
 import axios from "axios";
 import { setAreaList } from "../store/areaSlice";
+import { dataFetcher } from "../lib/dataFetcher";
 
 interface Prop {
   fetchData: Area[];
@@ -83,9 +84,7 @@ const Home: React.FC<Prop> = ({ fetchData }: Prop) => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const fetchData = await axios
-    .get<Area[]>(`https://weather-search-tool.vercel.app/api/data`)
-    .then((res) => res.data);
+  const fetchData = await dataFetcher();
 
   return { props: { fetchData } };
 };
