@@ -84,7 +84,8 @@ export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
   const fetchData = await axios
-    .get<Area[]>(`${process.env.NEXT_PUBLIC_URL}/api/data`)
+    .get<Area[]>(`https://weather-search-tool.vercel.app/api/data`)
     .then((res) => res.data);
+
   return { props: { fetchData } };
 };
